@@ -91,6 +91,11 @@ jobs:
     path: s
     submodules: true
   - script: |
+      # There are no .artifactignore in sonic-sairedis 201911 branch
+      if [ ! -f .artifactignore ]; then
+        echo **/* >> .artifactignore
+        echo !*.deb >> .artifactignore
+      fi
       ./autogen.sh
       #TODO: enable the check when aspellcheck.pl test failure
       DEB_BUILD_OPTIONS=nocheck fakeroot dpkg-buildpackage -b -us -uc -Tbinary-syncd-vs -j$(nproc) && cp ../*.deb .
