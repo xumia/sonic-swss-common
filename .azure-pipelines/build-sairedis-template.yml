@@ -93,8 +93,8 @@ jobs:
   - script: |
       # There are no .artifactignore in sonic-sairedis 201911 branch
       if [ ! -f .artifactignore ]; then
-        echo **/* >> .artifactignore
-        echo !*.deb >> .artifactignore
+        echo '**/*' >> .artifactignore
+        echo '!*.deb' >> .artifactignore
       fi
       ./autogen.sh
       #TODO: enable the check when aspellcheck.pl test failure
