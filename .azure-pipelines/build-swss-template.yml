@@ -67,14 +67,17 @@ jobs:
     displayName: "Download sonic sairedis deb packages"
   - task: DownloadPipelineArtifact@2
     inputs:
-      source: "specific"
+      source: specific
+      project: build
       pipeline: 142
-      patterns: target/debs/stretch/libteam*
+      artifact: sonic-buildimage.vs
+      runVersion: 'latestFromBranch'
       runBranch: 'refs/heads/201911'
-      artifact: "Azure.sonic-buildimage.official.vs"
+      patterns: target/debs/stretch/libteam*
+      artifact: "sonic-buildimage.vs"
     displayName: "Download libteam"
   - script: |
-      cd target/debs/stretch
+      cd ../target/debs/stretch
       sudo dpkg -i --force-confask,confnew libteam-dev_1.28-1_amd64.deb libteam5_1.28-1_amd64.deb libteamdctl0_1.28-1_amd64.deb || apt-get install -f
     displayName: "Install libteam"
   - script: |
