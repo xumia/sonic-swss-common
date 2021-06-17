@@ -42,14 +42,31 @@ jobs:
     image: sonicdev-microsoft.azurecr.io:443/${{ parameters.sonic_slave }}:latest
 
   steps:
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      source: specific
+      project: build
+      pipeline: 142
+      artifact: sonic-buildimage.vs
+      runVersion: 'latestFromBranch'
+      runBranch: 'refs/heads/201911'
+      patterns: target/debs/stretch/*.deb
+    displayName: "Download dependencies"
   - script: |
-      sudo apt-get install -qq -y \
-        libhiredis-dev \
-        libnl-3-dev \
-        libnl-genl-3-dev \
-        libnl-route-3-dev \
-        libnl-nf-3-dev \
-        swig3.0
+      cd ../target/debs/stretch
+      sudo dpkg -i --force-confask,confnew \
+          libhiredis0.14_*.deb \
+          libhiredis-dev_*.deb \
+          libnl-3-200_*.deb \
+          libnl-3-dev_*.deb \
+          libnl-genl-3-200_*.deb \
+          libnl-genl-3-dev_*.deb \
+          libnl-route-3-200_*.deb \
+          libnl-route-3-dev_*.deb \
+          libnl-nf-3-200_*.deb \
+          libnl-nf-3-dev_*.deb \
+          libnl-cli-3-200_*.deb \
+          swig3.0_*.deb
     displayName: "Install dependencies"
   - script: |
       ./autogen.sh
