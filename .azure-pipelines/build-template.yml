@@ -55,6 +55,7 @@ jobs:
   - script: |
       cp ../target/debs/stretch/libhiredis*.deb ../
       cp ../target/debs/stretch/libnl*.deb ../
+      cp ../target/debs/stretch/libteam*.deb ../
       cp ../target/debs/stretch/swig3.0_*.deb ../
       cd ..
       sudo dpkg -i --force-confask,confnew \
