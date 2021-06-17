@@ -47,14 +47,12 @@ jobs:
   steps:
   - task: DownloadPipelineArtifact@2
     inputs:
-      source: specific
-      project: build
-      pipeline: 142
-      artifact: sonic-buildimage.vs
-      runVersion: 'latestFromBranch'
-      runBranch: 'refs/heads/201911'
-      patterns: target/debs/stretch/*.deb
-    displayName: "Download dependencies"
+      artifact: ${{ parameters.swss_common_artifact_name }}
+    displayName: "Download sonic swss common deb packages"
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: ${{ parameters.sairedis_artifact_name }}
+    displayName: "Download sonic sairedis deb packages"
   - script: |
       cd ../target/debs/stretch
       sudo apt-get install -y libzmq5 libzmq3-dev
@@ -73,14 +71,6 @@ jobs:
           swig3.0_*.deb
       sudo dpkg -i --force-confask,confnew libteam-dev_1.28-1_amd64.deb libteam5_1.28-1_amd64.deb libteamdctl0_1.28-1_amd64.deb || apt-get install -f
     displayName: "Install dependencies"
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      artifact: ${{ parameters.swss_common_artifact_name }}
-    displayName: "Download sonic swss common deb packages"
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      artifact: ${{ parameters.sairedis_artifact_name }}
-    displayName: "Download sonic sairedis deb packages"
   - script: |
       sudo dpkg -i libswsscommon_1.0.0_${{ parameters.arch }}.deb
       sudo dpkg -i libswsscommon-dev_1.0.0_${{ parameters.arch }}.deb

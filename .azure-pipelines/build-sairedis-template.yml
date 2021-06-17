@@ -57,17 +57,27 @@ jobs:
         docbook-to-man \
         docbook-utils \
         aspell-en \
-        libhiredis0.14 \
-        libhiredis-dev \
-        libnl-3-dev \
-        libnl-genl-3-dev \
-        libnl-route-3-dev \
-        libnl-nf-3-dev \
-        libnl-cli-3-dev \
-        swig3.0 \
         libpython2.7-dev \
         libzmq5 libzmq3-dev
-
+    displayName: "Install dependencies"
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: ${{ parameters.swss_common_artifact_name }}
+    displayName: "Download sonic swss common deb packages"
+  - script: |
+      sudo dpkg -i --force-confask,confnew \
+          libhiredis0.14_*.deb \
+          libhiredis-dev_*.deb \
+          libnl-3-200_*.deb \
+          libnl-3-dev_*.deb \
+          libnl-genl-3-200_*.deb \
+          libnl-genl-3-dev_*.deb \
+          libnl-route-3-200_*.deb \
+          libnl-route-3-dev_*.deb \
+          libnl-nf-3-200_*.deb \
+          libnl-nf-3-dev_*.deb \
+          libnl-cli-3-200_*.deb \
+          swig3.0_*.deb
       sudo apt-get install -y redis-server
       sudo sed -ri 's/^# unixsocket/unixsocket/' /etc/redis/redis.conf
       sudo sed -ri 's/^unixsocketperm .../unixsocketperm 777/' /etc/redis/redis.conf
@@ -76,13 +86,6 @@ jobs:
 
       sudo apt-get install -y rsyslog
       sudo service rsyslog start
-
-    displayName: "Install dependencies"
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      artifact: ${{ parameters.swss_common_artifact_name }}
-    displayName: "Download sonic swss common deb packages"
-  - script: |
       sudo dpkg -i libswsscommon_1.0.0_${{ parameters.arch }}.deb
       sudo dpkg -i libswsscommon-dev_1.0.0_${{ parameters.arch }}.deb
     workingDirectory: $(Pipeline.Workspace)
