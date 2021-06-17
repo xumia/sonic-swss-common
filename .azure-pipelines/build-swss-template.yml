@@ -54,7 +54,6 @@ jobs:
       artifact: ${{ parameters.sairedis_artifact_name }}
     displayName: "Download sonic sairedis deb packages"
   - script: |
-      cd ../target/debs/stretch
       sudo apt-get install -y libzmq5 libzmq3-dev
       sudo dpkg -i --force-confask,confnew \
           libhiredis0.14_*.deb \

@@ -53,7 +53,9 @@ jobs:
       patterns: target/debs/stretch/*.deb
     displayName: "Download dependencies"
   - script: |
-      cp ../target/debs/stretch/*.deb ../
+      cp ../target/debs/stretch/libhiredis*.deb ../
+      cp ../target/debs/stretch/libnl*.deb ../
+      cp ../target/debs/stretch/swig3.0_*.deb ../
       cd ..
       sudo dpkg -i --force-confask,confnew \
           libhiredis0.14_*.deb \
