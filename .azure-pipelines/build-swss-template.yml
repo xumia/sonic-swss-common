@@ -54,8 +54,7 @@ jobs:
       artifact: ${{ parameters.sairedis_artifact_name }}
     displayName: "Download sonic sairedis deb packages"
   - script: |
-      ls -l .
-      ls -l ..
+      cd ..
       sudo apt-get install -y libzmq5 libzmq3-dev
       sudo dpkg -i --force-confask,confnew \
           libhiredis0.14_*.deb \
@@ -73,6 +72,7 @@ jobs:
       sudo dpkg -i --force-confask,confnew libteam-dev_1.28-1_amd64.deb libteam5_1.28-1_amd64.deb libteamdctl0_1.28-1_amd64.deb || apt-get install -f
     displayName: "Install dependencies"
   - script: |
+      cd ..
       sudo dpkg -i libswsscommon_1.0.0_${{ parameters.arch }}.deb
       sudo dpkg -i libswsscommon-dev_1.0.0_${{ parameters.arch }}.deb
       sudo dpkg -i libsaivs_*.deb
