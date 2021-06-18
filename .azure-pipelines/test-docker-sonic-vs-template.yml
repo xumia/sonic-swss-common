@@ -33,8 +33,7 @@ jobs:
   - script: |
       sudo apt-get install -y python2.7 libpython2.7
       curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-      python2.7 get-pip.py
-      pip --version
+      sudo python2.7 get-pip.py
     displayName: "Install Python2.7"
 
   - script: |
@@ -46,7 +45,7 @@ jobs:
       sudo dpkg -i --force-confask,confnew ../python-swsscommon_1.0.0_amd64.deb || sudo apt-get install -f
       # install packages for vs test
       sudo apt-get install -y net-tools bridge-utils vlan
-      pip install pytest==4.6.2 attrs==19.1.0 exabgp==4.0.10 distro==1.5.0 docker==4.4.1 redis==3.3.4 flaky==3.7.0
+      sudo pip install pytest==4.6.2 attrs==19.1.0 exabgp==4.0.10 distro==1.5.0 docker==4.4.1 redis==3.3.4 flaky==3.7.0
     displayName: "Install dependencies"
   - script: |
       set -x
