@@ -40,7 +40,7 @@ jobs:
       sudo sonic-swss-common/.azure-pipelines/build_and_install_module.sh
       sudo apt-get install -y libhiredis0.14
       sudo dpkg -i --force-confask,confnew ../libswsscommon_1.0.0_amd64.deb || sudo apt-get install -f
-      sudo dpkg -i --force-confask,confnew ../python3-swsscommon_1.0.0_amd64.deb || sudo apt-get install -f
+      sudo dpkg -i --force-confask,confnew ../python-swsscommon_1.0.0_amd64.deb || sudo apt-get install -f
       # install packages for vs test
       sudo apt-get install -y net-tools bridge-utils vlan
       pip install pytest==4.6.2 attrs==19.1.0 exabgp==4.0.10 distro==1.5.0 docker==4.4.1 redis==3.3.4 flaky==3.7.0
