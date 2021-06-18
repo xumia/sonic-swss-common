@@ -15,10 +15,6 @@ jobs:
     vmImage: 'ubuntu-20.04'
 
   steps:
-  - task: UsePythonVersion@0
-    displayName: 'Use Python 2.7'
-    inputs:
-      versionSpec: '2.7'
   - task: DownloadPipelineArtifact@2
     inputs:
       artifact: docker-sonic-vs
@@ -33,6 +29,13 @@ jobs:
     displayName: "Checkout sonic-swss-common"
   - checkout: sonic-swss
     displayName: "Checkout sonic-swss"
+
+  - script: |
+      sudo apt-get install -y python2.7 libpython2.7
+      curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+      python2.7 get-pip.py
+      pip --version
+    displayName: "Install Python2.7"
 
   - script: |
       set -x
