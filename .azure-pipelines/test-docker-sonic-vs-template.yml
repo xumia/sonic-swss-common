@@ -49,6 +49,9 @@ jobs:
     displayName: "Install dependencies"
   - script: |
       set -x
+      ls -l ..
+      sudo pwd
+      sudo ls -l ..
       sudo docker load -i ../docker-sonic-vs.gz
       docker ps
       ip netns list
