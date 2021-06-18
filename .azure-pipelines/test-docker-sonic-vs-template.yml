@@ -37,30 +37,14 @@ jobs:
   - script: |
       set -x
       ls -l
-      sudo .azure-pipelines/build_and_install_module.sh
-
-      sudo dpkg -i --force-confask,confnew \
-          libhiredis0.14_*.deb \
-          libhiredis-dev_*.deb \
-          libnl-3-200_*.deb \
-          libnl-3-dev_*.deb \
-          libnl-genl-3-200_*.deb \
-          libnl-genl-3-dev_*.deb \
-          libnl-route-3-200_*.deb \
-          libnl-route-3-dev_*.deb \
-          libnl-nf-3-200_*.deb \
-          libnl-nf-3-dev_*.deb \
-          libnl-cli-3-200_*.deb \
-          swig3.0_*.deb
-      sudo dpkg -i --force-confask,confnew libswsscommon_1.0.0_amd64.deb || apt-get install -f
-      sudo dpkg -i python-swsscommon_1.0.0_amd64.deb
-
+      sudo sonic-swss-common/.azure-pipelines/build_and_install_module.sh
+      sudo apt-get install -y libhiredis0.14
+      sudo dpkg -i --force-confask,confnew ../libswsscommon_1.0.0_amd64.deb || sudo apt-get install -f
+      sudo dpkg -i --force-confask,confnew ../python3-swsscommon_1.0.0_amd64.deb || sudo apt-get install -f
       # install packages for vs test
       sudo apt-get install -y net-tools bridge-utils vlan
       pip install pytest==4.6.2 attrs==19.1.0 exabgp==4.0.10 distro==1.5.0 docker==4.4.1 redis==3.3.4 flaky==3.7.0
-    workingDirectory: $(Pipeline.Workspace)
     displayName: "Install dependencies"
-
   - script: |
       set -x
       sudo docker load -i ../docker-sonic-vs.gz
@@ -69,7 +53,6 @@ jobs:
       pushd sonic-swss/tests
       sudo $(which pytest) -v --force-flaky --junitxml=tr.xml --imgname=docker-sonic-vs:$(Build.DefinitionName).$(Build.BuildNumber)
     displayName: "Run vs tests"
-
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '**/tr.xml'
@@ -80,7 +63,6 @@ jobs:
       cp -r sonic-swss/tests/log $(Build.ArtifactStagingDirectory)/
     displayName: "Collect logs"
     condition: always()
-
   - publish: $(Build.ArtifactStagingDirectory)/
     artifact: ${{ parameters.log_artifact_name }}@$(System.JobAttempt)
     displayName: "Publish logs"
