@@ -52,7 +52,8 @@ jobs:
       ls -l ..
       sudo pwd
       sudo ls -l ..
-      sudo docker load -i ../docker-sonic-vs.gz
+      echo Pipeline.Workspace=$(Pipeline.Workspace)
+      sudo docker load -i $(Pipeline.Workspace)/docker-sonic-vs.gz
       docker ps
       ip netns list
       pushd sonic-swss/tests
