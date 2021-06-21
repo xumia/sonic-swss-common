@@ -100,7 +100,7 @@ jobs:
     displayName: "Copy deb packages"
   - script: |
       sudo apt-get install -y libzmq5 libzmq3-dev
-      sudo dpkg -i --force-confask,confnew *.deb || sudo apt-get install -f
+      sudo dpkg -i --force-confask,confnew *.deb || sudo apt-get install -f -y
     displayName: "Install dependencies"
   - checkout: sonic-swss
     path: s
