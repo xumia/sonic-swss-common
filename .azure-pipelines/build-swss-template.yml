@@ -64,10 +64,6 @@ jobs:
       patterns: target/debs/stretch/*.deb
     displayName: "Download sonic image deb packages"
   - script: |
-      if [ ! -f .artifactignore ]; then
-        echo '**/*' >> .artifactignore
-        echo '!*.deb' >> .artifactignore
-      fi
       pushd $(Pipeline.Workspace)/target/debs/stretch
       cp libhiredis0.14_*.deb \
          libhiredis-dev_*.deb \
@@ -107,6 +103,11 @@ jobs:
     path: s
     submodules: true
   - script: |
+      if [ ! -f .artifactignore ]; then
+        echo '**/*' >> .artifactignore
+        echo '!*.deb' >> .artifactignore
+      fi
+
       ./autogen.sh
       dpkg-buildpackage -us -uc -b -j$(nproc) && cp ../*.deb .
     displayName: "Compile sonic swss"
