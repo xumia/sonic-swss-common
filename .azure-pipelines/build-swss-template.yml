@@ -81,8 +81,8 @@ jobs:
          libnl-nf-3-dev_*.deb \
          libnl-cli-3-200_*.deb \
          swig3.0_*.deb \
-         $(Pipeline.Workspace)/s
-         cp libteam-dev_1.28-1_amd64.deb libteam5_1.28-1_amd64.deb libteamdctl0_1.28-1_amd64.deb $(Pipeline.Workspace)/s
+         $(Pipeline.Workspace)/
+         cp libteam-dev_1.28-1_amd64.deb libteam5_1.28-1_amd64.deb libteamdctl0_1.28-1_amd64.deb $(Pipeline.Workspace)/
       popd
       pushd $(Pipeline.Workspace)
       cp libswsscommon_1.0.0_${{ parameters.arch }}.deb \
@@ -94,13 +94,14 @@ jobs:
          libsaimetadata_*.deb \
          libsaimetadata-dev_*.deb \
          syncd-vs_*.deb \
-         $(Pipeline.Workspace)/s
+         $(Pipeline.Workspace)/
        popd
-       ls -l $(Pipeline.Workspace)/s/*.deb
+       ls -l $(Pipeline.Workspace)/*.deb
     displayName: "Copy deb packages"
   - script: |
       sudo apt-get install -y libzmq5 libzmq3-dev
       sudo dpkg -i --force-confask,confnew *.deb || sudo apt-get install -f -y
+    workingDirectory: $(Pipeline.Workspace)
     displayName: "Install dependencies"
   - checkout: sonic-swss
     path: s
